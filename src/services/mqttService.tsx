@@ -71,6 +71,18 @@ class MqttService {
       this.client.end();
     }
   }
+
+  public unsubscribe(topic: string) {
+    if (this.client) {
+      this.client.unsubscribe(topic, (err) => {
+        if (err) {
+          console.error(`Failed to unsubscribe from topic ${topic}:`, err);
+        } else {
+          console.log(`Successfully unsubscribed from topic ${topic}`);
+        }
+      });
+    }
+}
 }
 
 export default MqttService;
