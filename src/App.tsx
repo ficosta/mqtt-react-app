@@ -4,8 +4,11 @@ import MessageList from "./components/MessageList";
 import { MqttProvider } from "./context/MqttContext";
 
 const App: React.FC = () => {
+  const brokerUrl = "wss://test.mosquitto.org:8081"; // Replace with your actual broker URL
+
+
   return (
-    <MqttProvider>
+    <MqttProvider brokerUrl={brokerUrl}>
       <div>
         <h1>MQTT React App</h1>
         <MessageInput topic="vite/react2" />

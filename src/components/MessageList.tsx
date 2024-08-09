@@ -11,8 +11,10 @@ const MessageList: React.FC<MessageListProps> = ({ topic }) => {
 
   useEffect(() => {
     if (mqttService) {
+      console.log(`Subscribing and setting up listener for topic: ${topic}`);
       mqttService.subscribe(topic);
       mqttService.onMessage((receivedTopic, message) => {
+        console.log(`Received message on ${receivedTopic}: ${message}`);
         if (receivedTopic === topic) {
           setMessages((prev) => [...prev, message]);
         }

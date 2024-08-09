@@ -11,7 +11,22 @@ class MqttService {
 
     this.client.on("connect", () => {
       console.log("Connected to MQTT Broker");
+
+            // Log the clientId after connection
+            if (this.client) {
+              console.log(`Client ID: ${this.client.options.clientId}`);
+            }
+
       this.isConnected = true;
+      this.subscriptions.forEach((topic) => {
+        this.client?.subscribe(topic, (err) => {
+          if (err) {
+            console.error(`Failed to subscribe to topic ${topic}:`, err);
+          } else {
+            console.log(`Successfully subscribed to topic ${topic}`);
+          }
+        });
+      });
     });
 
     this.client.on("close", () => {
@@ -22,23 +37,28 @@ class MqttService {
 
   subscribe(topic: string) {
     if (this.isConnected) {
+      console.log(`Subscribing to topic: ${topic}`);
       this.client?.subscribe(topic, (err) => {
         if (err) {
           console.error(`Failed to subscribe to topic ${topic}:`, err);
         } else {
-          console.log(`Subscribed to topic ${topic}`);
+          console.log(`Successfully subscribed to topic ${topic}`);
         }
       });
-    } else {
+    } else if (!this.subscriptions.includes(topic)) {
       this.subscriptions.push(topic);
     }
   }
+  
 
   onMessage(callback: (topic: string, message: string) => void) {
+    console.log("Attaching onMessage handler");
     this.client?.on("message", (topic, payload) => {
+      console.log(`Received message on topic ${topic}: ${payload.toString()}`);
       callback(topic, payload.toString());
     });
   }
+  
 
   sendMessage(topic: string, message: string) {
     if (this.client) {
