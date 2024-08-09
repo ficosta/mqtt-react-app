@@ -8,10 +8,10 @@ const App: React.FC = () => {
     <MqttProvider>
       <div>
         <h1>MQTT React App</h1>
-        <MessageInput topic="vite/react/mqtt/input1" />
-        <MessageInput topic="vite/react/mqtt/input2" />
-        <MessageList topic="vite/react/mqtt/input1" />
-        <MessageList topic="vite/react/mqtt/input2" />
+        <MessageInput topic="vite/react2" />
+        <MessageInput topic="vite/react1" />
+        <MessageList topic="vite/react2" />
+        <MessageList topic="vite/react1" />
       </div>
     </MqttProvider>
   );

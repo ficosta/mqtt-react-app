@@ -6,18 +6,12 @@ class MqttService {
   private isConnected: boolean = false;
 
   constructor(brokerUrl: string) {
+    console.log("Initializing MqttService");
     this.client = mqtt.connect(brokerUrl);
 
     this.client.on("connect", () => {
       console.log("Connected to MQTT Broker");
       this.isConnected = true;
-      this.subscriptions.forEach((topic) => {
-        this.client?.subscribe(topic, (err) => {
-          if (err) {
-            console.error(`Failed to subscribe to topic ${topic}:`, err);
-          }
-        });
-      });
     });
 
     this.client.on("close", () => {
